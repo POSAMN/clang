@@ -24,6 +24,11 @@ int main() {
 	add(&test_array, -141);
 	printf("array size = %ld\n", test_array.size);
 	print(&test_array);
+	
+	deleteElement(&test_array, 10);
+	
+	printf("array size = %ld\n", test_array.size);
+	print(&test_array);
 	clearDynArray(&test_array);
 	return 0;
 }

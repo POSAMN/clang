@@ -27,8 +27,8 @@ void add(dyn_arr_t* arr, int value) {
 void print(const dyn_arr_t* arr) {
 	for (size_t i = 0; i < arr->size; i++) {
 		printf("%d ", arr->buf[i]);
-	}		
-	
+	}	
+	printf("\n");
 }
 
 void clearDynArray(dyn_arr_t* arr) {
@@ -36,3 +36,19 @@ void clearDynArray(dyn_arr_t* arr) {
 	arr->size = 0;
 	arr->buf_size = 0;
 }
+
+int* get(const dyn_arr_t* arr, size_t ind) {
+	if (ind < arr->size) {
+		return &(arr->buf[ind]);
+	}
+	return NULL;
+}
+
+void deleteElement(dyn_arr_t* arr, size_t ind) {
+	for(size_t i = ind; i < arr->size-1; ++i){
+		arr->buf[i] = arr->buf[i+1];
+	}
+	arr->size--;
+}
+
+

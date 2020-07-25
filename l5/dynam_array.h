@@ -13,6 +13,8 @@ dyn_arr_t createDynArray();
 void add(dyn_arr_t* arr, int value);
 void print(const dyn_arr_t* arr);
 void clearDynArray(dyn_arr_t* arr);
-
+int* get(const dyn_arr_t* arr, size_t ind);
+void deleteElement(dyn_arr_t* arr, size_t ind);
+void add(dyn_arr_t* arr, int value, size_t ind);
 
 #endif
