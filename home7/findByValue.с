@@ -4,7 +4,6 @@ int findByValue(LinkedList_t* ll, int value){
         while (cur->next != NULL && cur->data != value){
             cur = cur->next;
         }
-        printf("%d\n", cur->data);
         if (cur->data == value){
             return 1;
         } else {

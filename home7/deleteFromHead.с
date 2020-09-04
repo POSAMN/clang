@@ -1,4 +1,4 @@
-}void deleteFromHead(LinkedList_t* ll){
+void deleteFromHead(LinkedList_t* ll){
     node_t* cur = ll->head;
     
     if (cur == NULL){
