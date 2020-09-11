@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 
 int main() {
@@ -104,7 +105,12 @@ int main() {
 	//размер массива 10_000						
 	//массив отсортирован по возрастанию!
 	//найти число или числа, которые лежат в диапазоне 79000 ... 810000
-	
+    int size = 10000;
+    double valueleft = 79000;
+	double valueright = 810000;
+    double* arrleft = NULL;
+    double* arrright = NULL;;
+    cmpOnTryArray(&numbers, size, valueleft, valueright, arrleft, arrright);
 	
 	return 0;
 }
