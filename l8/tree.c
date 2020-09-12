@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "tree.h"
 
-
 void addVal_it(tree_t* tree, double val) {
 	node_t* new_node = malloc(sizeof(node_t));
 	new_node -> val = val;
@@ -35,8 +34,37 @@ void addVal_it(tree_t* tree, double val) {
 	}
 }
 
+int powInt(int mantissa, int power) {
+	int result = 1;
+	for (int i = 0; i < power; i++) {
+		result *=mantissa;
+	}
+	return result;
+}
 
 void print_it(const tree_t* tree) {
-	int cur_lvl = 0;
-	
+	node_t* cur = NULL;
+	for (int cur_lvl = 0; cur_lvl < tree-> height; cur_lvl++) {
+		for (int i = 0; i < powInt(2, cur_lvl); i++) {//обходим внутри одного уровня
+			cur = tree->root; 
+			for (int j = 0; j < cur_lvl; j++){
+				int right = (i >> (cur_lvl - j  - 1)) & 1;
+				if (right) {
+					if (cur != NULL){
+						cur = cur->r;
+					}
+				} else {
+					if (cur != NULL) {
+						cur = cur->l;
+					}
+				}
+			}
+			if (cur != NULL) {
+				printf("%.2lf ", cur->val);
+			} else {
+				printf("___ ");
+			}
+		}
+		printf("\n");
+	}
 }
