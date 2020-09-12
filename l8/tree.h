@@ -1,3 +1,5 @@
+#ifndef _TREE_H_
+#define _TREE_H_
 typedef struct node {
 	double val;
 	struct node* l;
@@ -10,6 +12,6 @@ typedef struct tree_def {
 	int size;
 } tree_t;
 
-
 void addVal_it(tree_t* tree, double val);
 void print_it(const tree_t* tree);
+#endif
