@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
 #include <stdio.h>
 #include <stdlib.h>
 //определить структуру матрица 3x3
@@ -12,43 +8,79 @@
 typedef struct matrica
 {
     double** mas;
-    int len;
-    int hight;
+    int length;
+    int height;
 } matrica_t;
 
-matrica_t creatMatrica(matrica_t mtr)
+matrica_t* createEmptyMatrix(int length, int height) {
+	matrica_t* mat = (matrica_t*) malloc(sizeof(matrica_t));
+	mat -> length = length;
+	mat -> height = height;
+	mat -> mas = (double**) malloc(mat->height * (sizeof(double*)));
+	
+	for (int i = 0; i < mat -> height; i++){
+		mat -> mas[i] = (double*) malloc(mat -> length * sizeof(double));
+	}
+	
+	return mat;
+}
+
+matrica_t* createMatrixFromConsole()
 {
-    mtr.hight = 3;
-    mtr.len = 3;
-    mtr.mas = (double**)malloc(3 * sizeof(double*));
-    for (int i = 0; i < mtr.hight; i++){
-        mtr.mas[i] = (double*)malloc(3 * sizeof(double));
-        for (int j = 0; j < mtr.len; j++){
-            scanf("%lf", &mtr.mas[i][j]);
+	int length, height;
+	printf("input size length: ");
+	scanf("%d", &length);
+	printf("\n");
+	printf("input size height: ");
+	scanf("%d", &height);
+	printf("\n");
+	
+	matrica_t* mat = createEmptyMatrix(length, height);
+	
+    for (int i = 0; i < mat -> height; i++){
+		printf("input %d values for row %d: ", mat-> length, i);
+        for (int j = 0; j < mat -> length; j++){
+            scanf("%lf", &mat -> mas[i][j]);
         }
     }
-    return mtr; 
+	printf("\n**************\n\n");
+    return mat; 
 }
 
-void printMatrica(matrica_t mtr)
+void printMatrica(const matrica_t* mtr)
 {
-    for (int i = 0; i < mtr.hight; i++){
-        for (int j = 0; j < mtr.len; j++)
-            printf("%.1lf ", mtr.mas[i][j]);
+    for (int i = 0; i < mtr->height; i++){
+        for (int j = 0; j < mtr->length; j++)
+            printf("%.04lf ", mtr->mas[i][j]);
         printf("\n");
     }
-    printf("////////////\n");
+    printf("////////////\n\n");
 }
 
-matrica_t sumMtr1Mtr2(matrica_t mtr1, matrica_t mtr2)
+
+/**
+	возвращает новую матрицу, которая является суммой матриц @m1 и @m2
+	возвращает NULL если матрицы не совместимы по размеру
+*/
+matrica_t* sumMatrix(const matrica_t* m1, const matrica_t* m2)
 {
-    for (int i = 0; i < mtr1.hight; i++)
-        for (int j = 0; j < mtr1.len; j++)
-            mtr1.mas[i][j] += mtr2.mas[i][j];
-    return mtr1;
+	if (m1->height != m2->height || m1->length != m2->length) {
+		return NULL;
+	}
+	matrica_t* sumM = createEmptyMatrix(m1->length, m1->height);
+	
+    for (int i = 0; i < m1 -> height; i++){
+        for (int j = 0; j < m1->length; j++) {
+			sumM->mas[i][j] = m1->mas[i][j] + m2->mas[i][j];
+		}
+	}
+    return sumM;
 }
+
+
 int main()
 {
+	/*
     printf("LETs go \n");
     matrica_t mtr1 = creatMatrica(mtr1);
     matrica_t mtr2 = creatMatrica(mtr2);
@@ -56,7 +88,17 @@ int main()
     printMatrica(mtr2);
     mtr1 = sumMtr1Mtr2(mtr1, mtr2);
     printMatrica(mtr1);
-    
+	*/
+	
+	matrica_t* m1 = createMatrixFromConsole();
+	matrica_t* m2 = createMatrixFromConsole();
+	matrica_t* m3 = sumMatrix(m1, m2);
+	printMatrica(m1);
+	printMatrica(m2);
+	printMatrica(m3);
+    return 0;
 }
 
+//3 3 100 10 1 -1 2 6.0 11 11 .1
 
+//3 3 11 15 0 6 12 18 4 5 123

@@ -6,17 +6,12 @@ int cmpOnTryArray(double* arr, int start, int size, double valueleft, double val
     
     if (arr[1] > valueright){
         return 1;
-    } else {
-        if ((arr[size] < valueleft){
+    } else if (arr[size] < valueleft){
             return 1;
-        }
-    } else {
-        if ( (arr[1] >= valueleft) & (arr[1] <= valueright) ) {
+    } else if ((arr[1] >= valueleft) & (arr[1] <= valueright)) {
             printArrayLeft(arr, start, size, valueright);
-        } else {
-            if ( (arr[size] >= valueleft) & (arr[size] <= valueright) ) {
+        } else if ( (arr[size] >= valueleft) & (arr[size] <= valueright) ) {
                 printArrayRight(arr, start, size, valueleft);
-            }  
         }
         int j = size % 2;
         int fin = size/2;
