@@ -1,13 +1,20 @@
 #include <stdio.h>
+<<<<<<< HEAD
 #include <stdlib.h>
 
 void cutArray(double* arr, int size, double* arrleft, double* arrright, int j);
+=======
+
+
+void cutArray(double* arr, int size, double* arrleft, double* arrright);
+>>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
 void cmpOnTryArray(double* arr, int size, double valueleft, double valueright);
 void printArrayLeft(double* arr, int size, double valueright);
 void printArrayRight(double* arr, int size, double valueleft);
 
 
 
+<<<<<<< HEAD
 void cutArray(double* arr, int size, double* arrleft, double* arrright, int j)
 {
     
@@ -24,6 +31,23 @@ int cmpOnTryArray(double* arr, int size, double valueleft, double valueright, do
     } else {
         if ((arr[size] < valueleft){
             return 1;
+=======
+void cutArray(double* arr, int size, double* arrleft, double* arrright)
+{
+    size = size/2;
+    double* arrleft =  arr;
+    double* arrright = arr*(size*4);
+}
+
+void cmpOnTryArray(double* arr, int size, double valueleft, double valueright, double* arrleft, double* arrleft)
+{
+    
+    if (arr[1] > valueright){
+        return;
+    } else {
+        if ((arr[size] < valueleft){
+            return;
+>>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
         }
     } else {
         if ( (arr[1] >= valueleft) & (arr[1] <= valueright) ) {
@@ -36,12 +60,20 @@ int cmpOnTryArray(double* arr, int size, double valueleft, double valueright, do
         int j = size % 2;
         size = size/2;
         
+<<<<<<< HEAD
         cutArray(arr, size, arrleft, arrright, j);
         cmpOnTryArray(arrleft, size + j, valueleft, valueright);
         cmpOnTryArray(arrright, size - j, valueleft, valueright);
         
     }
     return 1;
+=======
+        cutArray(arr, size, arrleft, arrright);
+        cmpOnTryArray(arrleft, size + j, valueleft, valueright);
+        cmpOnTryArray(arrright, size, valueleft, valueright);
+        
+    }
+>>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
 }
 
 void printArrayLeft(double* arr, int size, double valueright)

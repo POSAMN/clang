@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
 #include <stdio.h>
 #include <stdlib.h>
 //определить структуру матрица 3x3

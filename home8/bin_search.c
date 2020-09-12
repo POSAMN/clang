@@ -108,7 +108,13 @@ int main() {
     int size = 10000;
     double valueleft = 79000;
 	double valueright = 810000;
+<<<<<<< HEAD
     cmpOnTryArray(&numbers, size, valueleft, valueright);
+=======
+    double* arrleft = NULL;
+    double* arrright = NULL;;
+    cmpOnTryArray(&numbers, size, valueleft, valueright, arrleft, arrright);
+>>>>>>> ed76e1a71a1c4e03531adbfe472101aad6fe7e52
 	
 	return 0;
 }
