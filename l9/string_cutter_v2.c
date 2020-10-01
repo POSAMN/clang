@@ -13,7 +13,8 @@ typedef struct LinkedList
 } LinkedList_t;
 
 
-char* substr(const char* s, int st, int fn) {
+char* substr(const char* s, int st, int fn)
+{
 	char* str = malloc(sizeof(char)*(fn - st + 1));
 	
 	for (int i = st; i < fn; i++) {
@@ -49,7 +50,8 @@ void printAllNode(const LinkedList_t* ll)
 }
 
 
-int main() {
+int main() 
+{
 	
 	LinkedList_t ll = {NULL};
 	char * s;
