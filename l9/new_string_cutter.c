@@ -22,7 +22,7 @@ typedef struct LinkedList
 
 char* substr(const char* s, int st, int fn)
 {
-	char* str = malloc(sizeof(char)*(fn - st + 1));
+	char* str = malloc(sizeof(*str) * (fn - st + 1));
 	int i;
 	for (i = st; i < fn; i++) {
 		str[i - st] = s[i];
@@ -56,30 +56,42 @@ void printAllNode(const LinkedList_t* ll)
     }
 }
 
+
+char * readFromStdIn() {
+	int size = 10;
+	int i = 0;
+	char * s = malloc(sizeof(*s) * size);
+	char c = getchar();
+	while (c != '\n' && c != '\0') {
+		
+		if (i > size -1) {
+			char * newS = malloc(sizeof(*newS) * size * 2);
+			for (int j = 0; j < size; j++){
+				newS[j] = s[j];
+			}
+			size *= 2;
+			free(s);
+			s = newS;
+		}
+		
+		s[i++] = c;
+		c = getchar();
+	}
+	
+	s[i] = '\0';
+	return s;
+}
+
+//test fo|o bar
 int main() 
 {
-	
 	LinkedList_t ll = {NULL};
-// 	char * s;	
-	int i = 0;
+	char * s = readFromStdIn();
 	int st = 0;
 	int mode = space; //0 - space, 1 - word, 2 - quotes
-// 	scanf("%[^\n]s", s);
-    /////////////////////////////////////
-    i = 0;
-    char s[100000];
-    char ch;
-    i = 0;
-    ch = getchar();
-    while (ch != '\n') {
-        s[i] = ch;
-        ch = getchar();
-        i++;
-    }
-    s[i] = '\0';
-    i = 0;
-    ///////////////////////////////////////////
-	while (s[i] != '\0') {		
+	int i = 0;
+	printf("...................\n");
+	while (s[i] != '\0') {
 		switch(mode) {
 			case space:
 				if (s[i] != ' ') {
@@ -92,7 +104,7 @@ int main()
 				}
 				break;
 			case word:
-			    if (s[i] == ' ') {
+				if (s[i] == ' ') {
 					mode = space;
 					addNode(&ll, substr(s, st, i));
 				}
@@ -104,7 +116,7 @@ int main()
 				break;
 				
 			case quotes:
-			    if (s[i] == '\"') {
+				if (s[i] == '\"') {
 					mode = space;
 					addNode(&ll, substr(s, st+1, i));
 				}
@@ -113,7 +125,7 @@ int main()
 		i++;
 	}
 	if (mode == quotes) {
-		printf("ERRROR!/n");
+		printf("ERRROR!\n");
 		return 1;
 	}
 	switch(mode) {
@@ -124,7 +136,7 @@ int main()
 			addNode(&ll, substr(s, st+1, i));
 			break;
 	}
-
+	
   	printAllNode(&ll);
     printf("...................\n");
 	return 0;
