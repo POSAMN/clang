@@ -56,36 +56,6 @@ void printAllNode(const LinkedList_t* ll)
     }
 }
 
-int lenList(LinkedList_t* ll)
-{
-    node_t* cur = ll->head;
-    int i = 0;
-    while (cur != NULL) {
-        cur = cur->next;
-        i++;
-    }
-    return i;
-}
-
-char** createArray(char* str, int size, char** array)
-{
-    char** arr = malloc(sizeof(char*)*size);
-    for (int i = 0; i < size - 1; i++) {
-        arr[i] = array[i];
-    }
-    arr[size - 1] = str;
-    printf(".....%s\t", arr[size - 1]);
-    free(array);
-    printf("\n");
-    return arr;
-}
-
-void printArray(char** array, int size)
-{
-    for (int i = 0; i < size; i++) {
-        printf("%s\n", array[i]);
-    }
-}
 int main() 
 {
 	
@@ -95,8 +65,6 @@ int main()
 	int st = 0;
 	int mode = space; //0 - space, 1 - word, 2 - quotes
 // 	scanf("%[^\n]s", s);
-    int size = 0;
-    char** array = NULL;
     /////////////////////////////////////
     i = 0;
     char s[100000];
@@ -126,15 +94,11 @@ int main()
 			case word:
 			    if (s[i] == ' ') {
 					mode = space;
-                    size++;
 					addNode(&ll, substr(s, st, i));
-                    array = createArray(substr(s, st, i), size, array);
 				}
 				if (s[i] == '\"') {
 					mode = quotes;
-                    size++;
 					addNode(&ll, substr(s, st, i));
-                    array = createArray(substr(s, st, i), size, array);
 					st = i;
 				}
 				break;
@@ -142,10 +106,7 @@ int main()
 			case quotes:
 			    if (s[i] == '\"') {
 					mode = space;
-                    size++;
 					addNode(&ll, substr(s, st+1, i));
-//                     printf("%s\t", substr(s, st+1, i));
-                    array = createArray(substr(s, st+1, i), size, array);
 				}
 				break;
 		}		
@@ -158,19 +119,13 @@ int main()
 	switch(mode) {
 		case word:
 			addNode(&ll, substr(s, st, i));
-            size++;
-            array = createArray(substr(s, st, i), size, array);
 			break;
 		case quotes:
 			addNode(&ll, substr(s, st+1, i));
-            size++;
-            array = createArray(substr(s, st+1, i), size, array);
 			break;
 	}
-// 	char* n = NULL;
-// 	array = createArray(n, size, array);
+
   	printAllNode(&ll);
     printf("...................\n");
-    printArray(array, size);
 	return 0;
 }
