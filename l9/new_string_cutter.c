@@ -80,64 +80,89 @@ char * readFromStdIn() {
 	
 	s[i] = '\0';
 	return s;
+} 
+
+
+void clearList(LinkedList_t* ll)
+{
+    node_t * cur = ll->head;
+    printf("!!!!!!!!!!\n");
+    while (ll->head->next != NULL) {
+        cur = ll->head;
+            printf("cur =%s\n", cur->str);
+        ll->head = cur->next;
+            printf("head->str =%s\n", ll->head->str);
+        free(cur);
+    }
+    free(ll->head);
+    ll->head = NULL;
 }
 
 //test fo|o bar
 int main() 
 {
 	LinkedList_t ll = {NULL};
-	char * s = readFromStdIn();
+	char * s;
 	int st = 0;
 	int mode = space; //0 - space, 1 - word, 2 - quotes
 	int i = 0;
-	printf("...................\n");
-	while (s[i] != '\0') {
-		switch(mode) {
-			case space:
-				if (s[i] != ' ') {
-					if (s[i] == '\"') {
-						mode = quotes;
-					} else {
-						mode = word;
-					}
-					st = i;
-				}
-				break;
-			case word:
-				if (s[i] == ' ') {
-					mode = space;
-					addNode(&ll, substr(s, st, i));
-				}
-				if (s[i] == '\"') {
-					mode = quotes;
-					addNode(&ll, substr(s, st, i));
-					st = i;
-				}
-				break;
-				
-			case quotes:
-				if (s[i] == '\"') {
-					mode = space;
-					addNode(&ll, substr(s, st+1, i));
-				}
-				break;
-		}		
-		i++;
-	}
-	if (mode == quotes) {
-		printf("ERRROR!\n");
-		return 1;
-	}
-	switch(mode) {
-		case word:
-			addNode(&ll, substr(s, st, i));
-			break;
-		case quotes:
-			addNode(&ll, substr(s, st+1, i));
-			break;
-	}
-	
-  	printAllNode(&ll);
-    printf("...................\n");
+    int d = 1;
+    do {
+        printf(" please wr:\n");
+        s = readFromStdIn();
+        mode = space;
+        i = 0;
+        st = 0;
+        while (s[i] != '\0') {
+            switch(mode) {
+                case space:
+                    if (s[i] != ' ') {
+                        if (s[i] == '\"') {
+                            mode = quotes;
+                        } else {
+                            mode = word;
+                        }
+                        st = i;
+                    }
+                    break;
+                case word:
+                    if (s[i] == ' ') {
+                        mode = space;
+                        addNode(&ll, substr(s, st, i));
+                    }
+                    if (s[i] == '\"') {
+                        mode = quotes;
+                        addNode(&ll, substr(s, st, i));
+                        st = i;
+                    }
+                    break;
+                    
+                case quotes:
+                    if (s[i] == '\"') {
+                        mode = space;
+                        addNode(&ll, substr(s, st+1, i));
+                    }
+                    break;
+            }		
+            i++;
+        }
+        if (mode == quotes) {
+            printf("ERRROR!\n");
+            return 1;
+        }
+        switch(mode) {
+            case word:
+                addNode(&ll, substr(s, st, i));
+                break;
+            case quotes:
+                addNode(&ll, substr(s, st+1, i));
+                break;
+        }
+        free(s);
+        printAllNode(&ll);
+        clearList(&ll);
+//         printAllNode(&ll);
+        printf("...................\n");
+    } while (d != 0);
 	return 0;
 }
