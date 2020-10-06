@@ -44,11 +44,12 @@ void clearList(LinkedList_t* ll)
 {
     node_t * cur = ll->head;
     printf("!!!!!!!!!!\n");
-    while (ll->head->next != NULL) {
-        cur = ll->head;
+    node_t * buf = ll->head;
+    while (cur != NULL) {
             printf("cur =%s\n", cur->str);
-        ll->head = cur->next;
-            printf("head->str =%s\n", ll->head->str);
+        buf = cur;
+        cur = cur->next;
+        printf("head->str =%s\n", ll->head->str);
         free(cur);
     }
     free(ll->head);
