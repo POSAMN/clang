@@ -23,4 +23,5 @@ int main()
     }
     wait(NULL);
     printf("OK\n");
+	return 0;
 }

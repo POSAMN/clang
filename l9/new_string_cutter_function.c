@@ -121,20 +121,29 @@ void printDoubleArray(char ** array, LinkedList_t * ll)
     }
 }
 
+int isEquals(char * s1, char * s2) {
+	int i = 0;
+	while(s1[i] != '\0' && s2[i] != '\0') {
+		if (s1[i] != s2[i]) {
+			return 0;
+		}
+		i++;
+	}
+	
+	return s1[i] == '\0' && s2[i] == '\0';
+}
+
 void launchProces(char ** array)
 {
     int p;
     p = fork();
     if (p == 0) {
-        char strcd[] = {"cd"};
-        printf("tytytytytytytyt");
-        if (array[0] == strcd) {
-            printf("tytytytytytytyt");
-            chdir(array[0]);
+        if (isEquals(array[0], "cd")) {
+            chdir(array[1]);
         } else {
             execvp(array[0], array);
         }
-        perror("erRor");
+        perror("Result");
         exit(0);
     }
     wait(NULL);
