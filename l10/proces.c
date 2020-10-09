@@ -27,7 +27,7 @@ int main()
     p = fork();
     if (p == 0) {
         
-        execlp(array[0], array[0], array[1], NULL);
+        execlp(array[0], array);
         perror("error");
         exit(EXIT_SUCCESS);
     }

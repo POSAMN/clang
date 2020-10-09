@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "new_string_cutter.h"
 
 char* substr(const char* s, int st, int fn)
@@ -99,6 +102,50 @@ char ** createArray(LinkedList_t * ll)
     array[d] = NULL;
     return array;
 }
+
+// void clearDoubleArray(char ** array, LinkedList_t * ll)
+// {
+//     int size = lenList(ll);
+//     for (int i = 0; i < size; i++) {
+//         free(array[i]);
+//     }
+//     free(array);
+// }
+
+
+void printDoubleArray(char ** array, LinkedList_t * ll)
+{
+    int size = lenList(ll);
+    for (int i = 0; i <= size; i++) {
+        printf("%s ", array[i]);
+    }
+}
+
+void launchProces(char ** array)
+{
+    int p;
+    p = fork();
+    if (p == 0) {
+        char strcd[] = {"cd"};
+        printf("tytytytytytytyt");
+        if (array[0] == strcd) {
+            printf("tytytytytytytyt");
+            chdir(array[0]);
+        } else {
+            execvp(array[0], array);
+        }
+        perror("erRor");
+        exit(0);
+    }
+    wait(NULL);
+    printf("OK\n");
+}
+
+
+
+
+
+
 
 
 
