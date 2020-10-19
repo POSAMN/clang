@@ -139,7 +139,7 @@ void launchProces(char ** array)
     p = fork();
     if (p == 0) {
         if (isEquals(array[0], "cd")) {
-            chdir(array[1]);
+            chdir(array[1]); // нельзя использовать в дочернем, проверять на -1, проверять на аргументы
         } else {
             execvp(array[0], array);
         }
