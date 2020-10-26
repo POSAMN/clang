@@ -30,4 +30,6 @@ char ** createArray(LinkedList_t * ll);
 void clearDoubleArray(char ** array, LinkedList_t * ll);
 void printDoubleArray(char ** array, LinkedList_t * ll);
 void launchProces(char ** array);
+char* concat(char* s1, char* s2);
+char* clearQuotes(char* s);
 #endif

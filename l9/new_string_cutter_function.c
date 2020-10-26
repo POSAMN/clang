@@ -151,12 +151,56 @@ void launchProces(char ** array)
 }
 
 
+char* concat(char* s1, char* s2) {
+	int size1 = 0;
+	int size2 = 0;
+	
+	for(; s1[size1] != '\0'; size1++) {}
+	for(; s2[size2] != '\0'; size2++) {}
+	int newSize = (size1 + size2 - 1);
+	char* newString = malloc(sizeof(char) * newSize);
+	
+	int k1 = 0;
+	int k2 = 0;
+	for (int i = 0; i < newSize - 1; i++) {
+		if (k1 < size1) {
+			newString[i] = s1[k1++];
+		} else if (k2 < size2) {
+			newString[i] = s2[k2++];
+		}
+	}
+	
+	newString[newSize - 1] = '\0';
+	
+	return newString;
+	
+}
 
-
-
-
-
-
-
-
-
+char* clearQuotes(char* s) {
+	int i = 0;
+	int quotes = 0;
+	while(s[i] != '\0') {
+		if (s[i] == '\"') quotes++;
+		i++;
+	}
+	
+	if (quotes % 2 == 1) {
+		return NULL;
+	}
+	char* ss = malloc(i - quotes);
+	
+	int j = 0;
+	int k = 0;
+	while(s[j] != '\0') {
+		if (s[j] == '\"') {
+			j++;
+		} else {
+			ss[k] = s[j];
+			k++;
+			j++;
+		}
+	}
+	ss[k] = '\0';
+	free(s);
+	return ss;
+}

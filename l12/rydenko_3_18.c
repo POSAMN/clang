@@ -4,8 +4,8 @@
 
 int main()
 {
-    int a = 1000;
-    int b = 1010;
+    int a = 12;
+    int b = 101;
     int cur = 0;
     int j = 0;
     int i = a++;
