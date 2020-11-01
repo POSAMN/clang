@@ -59,14 +59,13 @@ void printAllNode(const LinkedList_t* ll)
 }
 
 char * readFromStdIn() {
-<<<<<<< HEAD
         int size = 10;
         int i = 0;
         char * s = malloc(sizeof(*s) * size);
-        int c = getchar();
+        char c = getchar();
         int j;
-        while (c != '\n' && c != '\0' && c != EOF) {
-			
+        while (c != '\n' && c != '\0') {
+
                 if (i > size -1) {
                         char * newS = malloc(sizeof(*newS) * size * 2);
                         for (j = 0; j < size; j++){
@@ -80,35 +79,10 @@ char * readFromStdIn() {
                 s[i++] = c;
                 c = getchar();
         }
+
         s[i] = '\0';
         return s;
 }
-=======
-	int size = 10;
-	int i = 0;
-	char * s = malloc(sizeof(*s) * size);
-	char c = getchar();
-    int j;
-	while (c != '\n' && c != '\0') {
-		
-		if (i > size -1) {
-			char * newS = malloc(sizeof(*newS) * size * 2);
-			for (j = 0; j < size; j++){
-				newS[j] = s[j];
-			}
-			size *= 2;
-			free(s);
-			s = newS;
-		}
-		
-		s[i++] = c;
-		c = getchar();
-	}
-	
-	s[i] = '\0';
-	return s;
-} 
->>>>>>> refs/remotes/origin/master
 
 
 void clearList(LinkedList_t* ll)
@@ -138,10 +112,6 @@ char ** createArray(LinkedList_t * ll)
 {
     node_t * cur = ll->head;
     int d = lenList(ll);
-	if (d == 0) {
-		return NULL;
-	}
-	
     char ** array = malloc(sizeof(char*) * (d + 1));
     int i;
     for (i = 0; i < d; i++) {
@@ -175,10 +145,6 @@ int isEquals(char * s1, char * s2) {
 
 void launchProcess(char ** array, int argc)
 {
-	if (array == NULL) {
-		printf("Please, insert valid command");
-		return;
-	}
     int p;
         if (isEquals(array[0], "cd")) {
                 if (argc <= 2) {
@@ -267,12 +233,10 @@ int main()
     do {
         printf(" please wr:\n");
         s = readFromStdIn();
-	
         mode = space;
         i = 0;
         st = 0;
-        int err = 0;
-		
+                int err = 0;
         while (1) {
             if (s[i] == ' ' || s[i] == '\0') {
                                 if (mode == word) {
@@ -317,7 +281,7 @@ int main()
                 if (err) {
                         continue;
                 }
-				
+
                 printAllNode(&ll);
                 int argc = lenList(&ll);
                 char ** array = createArray(&ll);

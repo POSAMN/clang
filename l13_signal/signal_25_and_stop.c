@@ -1,6 +1,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
 
 volatile static sig_atomic_t n = 0;
 const char message[] = "Press it again, I like it\n";
@@ -17,7 +18,9 @@ void handler(int s)
 int main()
 {
     signal(SIGINT, handler);
-    while(n < 5)
-        sleep(1);
+    while(n < 5) {
+		printf("waiting\n");
+        sleep(5);
+	}
     return 0;
 }
