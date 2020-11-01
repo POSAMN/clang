@@ -59,6 +59,7 @@ void printAllNode(const LinkedList_t* ll)
 }
 
 char * readFromStdIn() {
+<<<<<<< HEAD
         int size = 10;
         int i = 0;
         char * s = malloc(sizeof(*s) * size);
@@ -82,6 +83,32 @@ char * readFromStdIn() {
         s[i] = '\0';
         return s;
 }
+=======
+	int size = 10;
+	int i = 0;
+	char * s = malloc(sizeof(*s) * size);
+	char c = getchar();
+    int j;
+	while (c != '\n' && c != '\0') {
+		
+		if (i > size -1) {
+			char * newS = malloc(sizeof(*newS) * size * 2);
+			for (j = 0; j < size; j++){
+				newS[j] = s[j];
+			}
+			size *= 2;
+			free(s);
+			s = newS;
+		}
+		
+		s[i++] = c;
+		c = getchar();
+	}
+	
+	s[i] = '\0';
+	return s;
+} 
+>>>>>>> refs/remotes/origin/master
 
 
 void clearList(LinkedList_t* ll)
