@@ -63,11 +63,12 @@ char * readFromStdIn() {
 	int i = 0;
 	char * s = malloc(sizeof(*s) * size);
 	char c = getchar();
+    int j;
 	while (c != '\n' && c != '\0') {
 		
 		if (i > size -1) {
 			char * newS = malloc(sizeof(*newS) * size * 2);
-			for (int j = 0; j < size; j++){
+			for (j = 0; j < size; j++){
 				newS[j] = s[j];
 			}
 			size *= 2;
