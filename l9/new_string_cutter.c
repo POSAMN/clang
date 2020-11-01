@@ -4,6 +4,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#ifdef DEBUG
+	#define debug(fmt) printf("DEBUG:\t\t%s:%s:%d: "fmt"\n", __FILE__, __FUNCTION__, __LINE__)                                                                          
+    #define debug2(fmt, args...) printf("DEBUG:\t\t%s:%s:%d: "fmt"\n", __FILE__, __FUNCTION__, __LINE__, args)                                                                          
+#else
+	#define debug(fmt)
+    #define debug2(fmt, args...)
+#endif
+
 enum mode
 {
     word,
@@ -24,18 +32,22 @@ typedef struct LinkedList {
 
 char* substr(const char* s, int st, int fn)
 {
-        char* str = malloc(sizeof(*str) * (fn - st + 1));
-        int i;
-        for (i = st; i < fn; i++) {
-                str[i - st] = s[i];
-        }
-        str[fn-st] = '\0';
-        return str;
+	debug("malloc");
+	char* str = malloc(sizeof(*str) * (fn - st + 1));
+	debug2("malloc result=%p", str);
+	int i;
+	for (i = st; i < fn; i++) {
+			str[i - st] = s[i];
+	}
+	str[fn-st] = '\0';
+	return str;
 }
 
 void addNode(LinkedList_t* ll, char* str)
 {
+	debug("malloc");
     node_t* new_node = malloc(sizeof(node_t));
+	debug2("malloc result=%p", str);
     new_node->str = str;
     new_node->next = NULL;
     if (ll->head == NULL){
@@ -61,13 +73,17 @@ void printAllNode(const LinkedList_t* ll)
 char * readFromStdIn() {
         int size = 10;
         int i = 0;
+        int c = getchar();
+		debug("malloc");
         char * s = malloc(sizeof(*s) * size);
-        char c = getchar();
+		debug2("malloc result=%p", str);
         int j;
         while (c != '\n' && c != '\0') {
 
                 if (i > size -1) {
+						debug("malloc");
                         char * newS = malloc(sizeof(*newS) * size * 2);
+						debug2("malloc result=%p", str);
                         for (j = 0; j < size; j++){
                                 newS[j] = s[j];
                         }
@@ -112,7 +128,9 @@ char ** createArray(LinkedList_t * ll)
 {
     node_t * cur = ll->head;
     int d = lenList(ll);
+	debug("malloc");
     char ** array = malloc(sizeof(char*) * (d + 1));
+	debug2("malloc result=%p", str);
     int i;
     for (i = 0; i < d; i++) {
         array[i] = cur->str;
@@ -156,7 +174,7 @@ void launchProcess(char ** array, int argc)
                         return;
                 }
         } else {
-    p = fork();
+		p = fork();
                 if (p == 0) {
                         execvp(array[0], array);
                         perror("Result");
@@ -174,7 +192,9 @@ char* concat(char* s1, char* s2) {
         for(; s1[size1] != '\0'; size1++) {}
         for(; s2[size2] != '\0'; size2++) {}
         int newSize = (size1 + size2 - 1);
+		debug("malloc");
         char* newString = malloc(sizeof(char) * newSize);
+		debug2("malloc result=%p", str);
 
         int k1 = 0;
         int k2 = 0;
@@ -204,8 +224,9 @@ char* clearQuotes(char* s) {
         if (quotes % 2 == 1) {
                 return NULL;
         }
+		debug("malloc");
         char* ss = malloc(i - quotes);
-
+		debug2("malloc result=%p", str);
         int j = 0;
         int k = 0;
         while(s[j] != '\0') {
@@ -224,11 +245,11 @@ char* clearQuotes(char* s) {
 
 int main()
 {
-        LinkedList_t ll = {NULL};
-        char * s;
-        int st = 0;
-        int mode = space;
-        int i = 0;
+	LinkedList_t ll = {NULL};
+	char * s;
+	int st = 0;
+	int mode = space;
+	int i = 0;
     int d = 1;
     do {
         printf(" please wr:\n");
