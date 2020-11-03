@@ -126,8 +126,11 @@ int lenList(const LinkedList_t * ll)
 }
 char ** createArray(LinkedList_t * ll)
 {
-    node_t * cur = ll->head;
     int d = lenList(ll);
+	if (d == 0) {
+		return NULL;
+	}
+    node_t * cur = ll->head;
 	debug("malloc");
     char ** array = malloc(sizeof(char*) * (d + 1));
 	debug2("malloc result=%p", str);
@@ -163,6 +166,9 @@ int isEquals(char * s1, char * s2) {
 
 void launchProcess(char ** array, int argc)
 {
+	if (array == NULL) {
+		return;
+	}
     int p;
         if (isEquals(array[0], "cd")) {
                 if (argc <= 2) {
