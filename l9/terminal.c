@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <string.h>
 
 //разрезать строчку на слова и если есть "" то их не учитывать если их нечетное то ошибку выводитьа делать так:
 // ввод:  rfgfg"dgdfb  d"gdgd
@@ -47,6 +48,9 @@ char *substr(const char *s, int st, int fn) {
 }
 
 void addNode(LinkedList_t *ll, char *str) {
+	if (strlen(str) == 0) {
+		return;
+	}
     debug("malloc");
     node_t *new_node = malloc(sizeof(node_t));
     debug2("malloc result=%p", str);
@@ -220,6 +224,13 @@ void launchProcess(char **array, int argc) {
 	int ampersants = proceedAmpersants(array, argc);
 	
 	if (ampersants != -1) {//ошибки с амперсантом нет
+	if (ampersants == 2) {
+		if (--argc == 0) {
+			errno = EINVAL;
+			perror("Нет команды для исполнения");
+			return;
+		}
+	}
 		if (isEquals(array[0], "cd")) {
 			if (argc <= 2) {
 				int chdirResult = chdir(array[1]);
@@ -243,7 +254,7 @@ void launchProcess(char **array, int argc) {
 		}
 	} else {
 		errno = EINVAL;
-		perror("error with ampersants");
+		perror("Неверно использованы амперсанты");
 	}
 }
 
@@ -365,7 +376,7 @@ int main() {
         if (err) {
             continue;
         }
-
+		
         printAllNode(&ll);
         int argc = lenList(&ll);
         char **array = createArray(&ll);
