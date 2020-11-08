@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 //разрезать строчку на слова и если есть "" то их не учитывать если их нечетное то ошибку выводитьа делать так:
 // ввод:  rfgfg"dgdfb  d"gdgd
@@ -10,10 +11,10 @@
 
 #ifdef DEBUG
 #define debug(fmt) printf("DEBUG:\t\t%s:%s:%d: "fmt"\n", __FILE__, __FUNCTION__, __LINE__)
-#define debug2(fmt, args...) printf("DEBUG:\t\t%s:%s:%d: "fmt"\n", __FILE__, __FUNCTION__, __LINE__, args)
+#define debug2(fmt, arg) printf("DEBUG:\t\t%s:%s:%d: "fmt"\n", __FILE__, __FUNCTION__, __LINE__, arg)
 #else
 #define debug(fmt)
-#define debug2(fmt, args...)
+#define debug2(fmt, arg)
 #endif
 
 enum mode {
@@ -162,29 +163,88 @@ int isEquals(char *s1, char *s2) {
     return s1[i] == '\0' && s2[i] == '\0';
 }
 
+/*
+проверяет кол-во амперсантов в строке
+если амперсант присуствует и он единственный и явлется частью команды, а так же после него ничего кроме пробелов или \n нет, то ф-я возвращает 1
+если амперсант - это последняя команда, то возвращаем 2
+если амперсанты отсутствуют то 0
+иначе -1 
+*/
+int proceedAmpersants(char** argv, int argc) {
+	int i = 0;
+	int amp = 0;
+	for (; i < argc; i++) {
+		int j = 0;
+		for (;argv[i][j] != '\0'; j++) {
+			if (argv[i][j] == '&') {
+				amp++;
+				if (i < argc -1) {
+					//амперсант не в последней команде
+					return -1;
+				}
+			}
+		}
+	}
+	
+	if (amp == 1) {
+		char * comWithAmp = argv[argc-1];
+		int len = 0;
+		while(comWithAmp[len++] != '\0') {}
+		/*
+			последняя команда состоит только из амперсанта
+		*/
+		if (len == 2) {
+			argv[argc-1] = NULL;
+			return 2;
+		} else {
+			//последний символ - амперсант
+			if (comWithAmp[len - 2] == '&') {
+				comWithAmp[len - 2] = '\0';
+				return 1;
+			} else {
+				return -1;
+			}
+		}
+		
+	} else if (amp > 1) {
+		return -1;
+	}
+	return 0;
+}
+
 void launchProcess(char **array, int argc) {
     if (array == NULL) {
         return;
     }
     int p;
-    if (isEquals(array[0], "cd")) {
-        if (argc <= 2) {
-            int chdirResult = chdir(array[1]);
-            printf("chdirResult = %d\n", chdirResult);
-            perror("cd result");
-        } else {
-            printf("cd must have 1 argument");
-            return;
-        }
-    } else {
-        p = fork();
-        if (p == 0) {
-            execvp(array[0], array);
-            perror("Result");
-            exit(0);
-        }
-    }
-    wait(NULL);
+	int ampersants = proceedAmpersants(array, argc);
+	
+	if (ampersants != -1) {//ошибки с амперсантом нет
+		if (isEquals(array[0], "cd")) {
+			if (argc <= 2) {
+				int chdirResult = chdir(array[1]);
+				printf("chdirResult = %d\n", chdirResult);
+				perror("cd result");
+			} else {
+				printf("cd must have 1 argument");
+				return;
+			}
+		} else {
+			p = fork();
+			if (p == 0) {
+				execvp(array[0], array);
+				perror("Result");
+				exit(0);
+			}
+		}
+		//printf("amp = %d\n", ampersants);
+		if (ampersants == 0) {
+			wait(NULL);
+		}
+	} else {
+		errno = EINVAL;
+		perror("error with ampersants");
+	}
 }
 
 
